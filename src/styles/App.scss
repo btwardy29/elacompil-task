@@ -1,0 +1,46 @@
+@import "./variables.scss";
+
+.App {
+max-width: 1000px;
+height: $window-height;
+background-color: $primary-dark;
+padding: 30px 0;
+display: flex;
+padding: 30px;
+-webkit-box-shadow: 8px 8px 41px 0px rgba(66, 68, 90, 0.33);
+-moz-box-shadow: 8px 8px 41px 0px rgba(66, 68, 90, 0.33);
+box-shadow: 8px 8px 41px 0px rgba(23, 24, 37, 0.774);
+}
+.list {
+  min-width: 200px;
+}
+
+.devices {
+  width: calc(100% - 200px);
+  overflow: hidden;
+  padding-left: 15px;
+  margin-left: 15px;
+  border-left: 1px solid $secondary-light;
+}
+
+.overflowProtect {
+  transition: 1s;
+}
+
+.modal {
+  position: absolute;
+  z-index: 1;
+  width: 400px;
+  height: 200px;
+  padding: 5px;
+  
+  background-color: $secondary-dark;
+  color: white;
+  font-size: 20px;
+  font-family: sans-serif;
+
+  touch-action: none;
+
+  /* This makes things *much* easier */
+  box-sizing: border-box;
+}

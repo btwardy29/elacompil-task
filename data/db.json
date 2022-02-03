@@ -1,0 +1,129 @@
+{
+  "devices":
+    [
+      {
+        "type": "bulb",
+        "id": "fafattg",
+        "name": "Żarówka salon",
+        "connectionState": "connected"
+      },
+      {
+        "type": "bulb",
+        "id": "gsgb",
+        "name": "Żarówka sypialnia",
+        "connectionState": "connected"
+      },
+      {
+        "type": "bulb",
+        "id": "gsfgb24",
+        "name": "Żarówka Korytarz",
+        "connectionState": "poorConnection"
+      },
+      {
+        "type": "bulb",
+        "id": "gaasgb24",
+        "name": "Żarówka Kuchnia",
+        "connectionState": "disconnected"
+      },
+      {
+        "type": "outlet",
+        "id": "rrfafattg",
+        "name": "Kontakt salon",
+        "connectionState": "connected"
+      },
+      {
+        "type": "outlet",
+        "id": "gsgbvsv",
+        "name": "Kontakt sypialnia",
+        "connectionState": "disconnected"
+      },
+      {
+        "type": "outlet",
+        "id": "gsfgb2vsg4",
+        "name": "Kontakt Korytarz",
+        "connectionState": "poorConnection"
+      },
+      {
+        "type": "outlet",
+        "id": "gaagdgsgb24",
+        "name": "Kontakt Kuchnia",
+        "connectionState": "disconnected"
+      },
+      {
+        "type": "temperatureSensor",
+        "id": "rrfafattgsg",
+        "name": "Czujnik temperatury salon",
+        "connectionState": "connected"
+      },
+      {
+        "type": "temperatureSensor",
+        "id": "gsggggbvsv",
+        "name": "Czujnik temperatury sypialnia",
+        "connectionState": "disconnected"
+      },
+      {
+        "type": "temperatureSensor",
+        "id": "getsfgb2vsg4",
+        "name": "Czujnik temperatury Korytarz",
+        "connectionState": "poorConnection"
+      },
+      {
+        "type": "temperatureSensor",
+        "id": "gaabbcgdgsgb24",
+        "name": "Czujnik temperatury Kuchnia",
+        "connectionState": "disconnected"
+      },
+      {
+        "type": "temperatureSensor",
+        "id": "gagdgsgb24",
+        "name": "Czujnik temperatury Garaż",
+        "connectionState": "disconnected"
+      },
+      {
+        "type": "temperatureSensor",
+        "id": "gagdgsfafggb24",
+        "name": "Czujnik temperatury Korytarz",
+        "connectionState": "connected"
+      }
+    ],
+    "fafattg": 
+      {
+        "type": "bulb",
+        "id": "fafattg",
+        "name": "Żarówka salon",
+        "connectionState": "connected",
+        "isTurnedOn": true,
+        "brightness": 77,
+        "color": "#7c2c6f"
+      },
+    "gsfgb24": 
+      {
+        "type": "bulb",
+        "id": "gsfgb24",
+        "name": "Żarówka korytarz",
+        "connectionState": "poorConnection",
+        "isTurnedOn": true,
+        "brightness": 55,
+        "color": "wheat"
+      }
+    ,
+    "rrfafattg": 
+      {
+        "type": "outlet",
+        "id": "rrfafattg",
+        "name": "Kontakt salon",
+        "connectionState": "connected",
+        "isTurnedOn": true,
+        "powerConsumption": 144
+      }
+    ,
+    "gsggggbvsv": 
+      {
+        "type": "temperatureSensor",
+        "id": "rrfafattg",
+        "name": "gsggggbvsv",
+        "connectionState": "disconnected",
+        "temperature": -15
+      }
+      
+}

@@ -1,0 +1,34 @@
+@import "./variables.scss";
+
+.wrapper {
+  width: calc(100% + 30px);
+  display: flex;
+  padding: 15px;
+  align-items: center;
+  transition: 0.3s;
+  border: none;
+  border-left: 4px solid transparent;
+  font-weight: 600;
+  margin: 15px 0 0 -30px;
+  font-size: 14px;
+  background: none;
+  outline: none;
+  color: $primary-light;
+
+  &:hover {
+    background-color: $secondary-dark;
+    transition: 0.3s;
+    border-left: 4px solid orange;
+  } 
+ 
+}
+.iconWrapper {
+  span {
+    padding: 0 25px 0 10px;
+  }
+}
+
+.count {
+  width: 100%;
+  text-align: end;
+}

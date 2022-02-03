@@ -1,0 +1,122 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap');
+@import './variables.scss';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+li {
+  list-style-type: none;
+}
+
+body {
+  color: $primary-light;
+  font-family: 'Raleway', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  // Credits: https://www.rarchitecture.com.au/parkdale_house_balwyn Photography: Dylan James
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../assets/bg.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.devicesWindow {
+  height: calc($window-height - 60px);
+  overflow-y: scroll;
+    /* width */
+&::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+&::-webkit-scrollbar-track {
+  background: none
+}
+
+/* Handle */
+&::-webkit-scrollbar-thumb {
+  background: $secondary-light;
+  border-radius: 15px;
+}
+
+/* Handle on hover */
+&::-webkit-scrollbar-thumb:hover {
+  background: $primary-light;
+}
+}
+
+.goDown1 {
+  transition: 1s;
+  transform: translateY(-540px);
+}
+.goDown2 {
+  transition: 1s;
+
+  transform: translateY(-1080px)
+}
+
+.singleDeviceCard {
+  margin: 15px;
+  width: 170px;
+  padding: 10px;
+  height: 200px;
+  background-color: $primary-dark-lighter;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  -webkit-box-shadow: 8px 8px 22px 0px rgba(66, 68, 90, 0.33);
+  -moz-box-shadow: 8px 8px 22px 0px rgba(66, 68, 90, 0.33);
+  box-shadow: 0px 0px 22px 0px rgba(24, 25, 34, 0.342);
+  cursor: pointer;
+  .deviceTitle {
+    font-size: 16px;
+    font-weight: 600;
+    padding-bottom: 15px;
+  }
+  p {
+    text-align: center;
+    font-size: 12px;
+  }
+}
+.sizeXl {
+  font-size: 100px;
+}
+
+.disconnected {
+  color: $color-off;
+  text-shadow: 0px 0px 22px rgb(26, 32, 46);
+}
+
+.connected {
+  color: $color-on;
+  text-shadow: 0px 0px 22px rgba(49, 148, 49, 0.5)
+}
+
+.poorConnection {
+  color: $color-weak;
+  text-shadow: 0px 0px 22px rgba(204, 154, 60, 0.5);
+}
+
+.deviceHeader {
+  font-size: 24px;
+  padding: 15px 0 25px 0;
+}
+
+.invisible {
+  display: none;
+}

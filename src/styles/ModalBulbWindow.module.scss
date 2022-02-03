@@ -1,0 +1,72 @@
+@import './variables.scss';
+
+@mixin center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wrapper {
+  @include center;
+  color: $primary-light;
+  margin: 5px;
+  height: calc(100% - 10px);
+  
+}
+
+.description {
+  @include center;
+
+  flex-wrap: wrap;
+
+  width: 50%;
+  height: 100%;
+  div {
+    font-size: 16px;
+    @include center;
+    height: calc(50% - 20px);
+    background-color: $primary-dark;
+    margin: 10px;
+    width: 100%;
+    text-align: center;
+    -webkit-box-shadow: 8px 8px 22px 0px rgba(66, 68, 90, 0.33);
+    -moz-box-shadow: 8px 8px 22px 0px rgba(66, 68, 90, 0.33);
+    box-shadow: 0px 0px 22px 0px rgba(0, 0, 0, 0.185);
+  }
+}
+
+.icons {
+  @include center;
+  width: 50%;
+  height: 100%;
+
+}
+
+.circleBox {
+  @include center;
+  width: 50%;
+  height: 100%;
+
+  position: relative;
+  
+
+  circle {
+    fill: none;
+    stroke-width: 13px;
+    stroke-dasharray: 300;
+    stroke-dashoffset: -100;
+    transform: rotateZ(43deg);
+    transform-origin: center;
+  }
+  span {
+    font-size: 50px;
+    position: absolute;
+    text-align: center;
+    line-height: 100px;
+  }
+}
+
+.brightness {
+  font-size: 30px !important;
+  margin-top: 110px;
+}
