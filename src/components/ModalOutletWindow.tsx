@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-
 import styles from '../styles/ModalOutletWindow.module.scss'
+const { io } = require("socket.io-client");
 
 interface OutletDevice {
   type: string;
@@ -13,18 +13,22 @@ interface OutletDevice {
 
 const ModalOutletWindow = ({ id }: { id: string }) => {
 
+
   const [data, setData] = useState<OutletDevice | null>(null)
   
   useEffect(() => {
-    // TODO: Change address
-    let smartSocket = new WebSocket("wss://smarthome.com/api/v1/refresh");
+    // Second argument prevents CORS from error
+    const socket = io(`ws://localhost:4040`, { transports: ['websocket'] });
 
-    smartSocket.addEventListener('message', async function (event) {
-      const response = await (event.data).json()
-      setData(response)
+    socket.on('connect', function () {
+      socket.emit('fetchId', id)
+      
+      socket.on("message", (data: OutletDevice) => {
+        setData(data)
+      })
     })
-    return () => smartSocket.close()
-  }, [id])
+    return () => { socket.off() }
+  }, [id])  
 
   return (
     <>
@@ -32,11 +36,15 @@ const ModalOutletWindow = ({ id }: { id: string }) => {
         <div className={styles.wrapper} >
           <div className={styles.description}>
             <div>{data.name}</div>
-            <div>{data.connectionState ? 'Włączony' : 'Wyłączony'}</div>
+            <div>{
+              ((data.connectionState === 'connected') && 'Włączony') ||
+              ((data.connectionState === 'disconnected') && 'Wyłączony') ||
+              ((data.connectionState === 'poorConnection') && 'Słabe połączenie')
+              }</div>
           </div>
           <div className={styles.circleBox}>
             <span className={`material-icons ${data.connectionState}`}>bolt</span>
-            <span className={styles.brightness}>{data.powerConsumption}Watts</span>
+            <span className={styles.brightness}>{data.powerConsumption} watów</span>
           </div>
         </div>
       }

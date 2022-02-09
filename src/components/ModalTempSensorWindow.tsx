@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-
 import styles from '../styles/ModalTempSensorWindow.module.scss'
+const { io } = require("socket.io-client");
 
 interface TempSensorDevice {
   type: 'temperatureSensor';
@@ -15,14 +15,17 @@ const ModalTempSensorWindow = ({ id }: { id: string }) => {
   const [data, setData] = useState<TempSensorDevice | null>(null)
   
   useEffect(() => {
-    // TODO: Change address
-    let smartSocket = new WebSocket("wss://smarthome.com/api/v1/refresh");
+    // Second argument prevents CORS from error
+    const socket = io(`ws://localhost:4040`, { transports: ['websocket'] });
 
-    smartSocket.addEventListener('message', async function (event) {
-      const response = await (event.data).json()
-      setData(response)
+    socket.on('connect', function () {
+      socket.emit('fetchId', id)
+      
+      socket.on("message", (data: TempSensorDevice) => {
+        setData(data)
+      })
     })
-    return () => smartSocket.close()
+    return () => { socket.off() }
   }, [id])
 
   return (
@@ -31,7 +34,11 @@ const ModalTempSensorWindow = ({ id }: { id: string }) => {
         <div className={styles.wrapper} >
           <div className={styles.description}>
             <div>{data.name}</div>
-            <div>{data.connectionState ? 'Włączony' : 'Wyłączony'}</div>
+            <div>{
+              ((data.connectionState === 'connected') && 'Włączony') ||
+              ((data.connectionState === 'disconnected') && 'Wyłączony') ||
+              ((data.connectionState === 'poorConnection') && 'Słabe połączenie')
+              }</div>
           </div>
           <div className={styles.circleBox}>
             <span className={`material-icons ${data.connectionState}`}>thermostat</span>

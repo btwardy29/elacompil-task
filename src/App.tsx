@@ -1,6 +1,6 @@
 
-import { createContext, useEffect, useState, useRef } from 'react';
-import interact from 'interactjs'
+import { createContext, useEffect, useState } from 'react';
+import './utilities/modal.ts'
 
 // Components
 import Avatar from './components/Avatar';
@@ -23,63 +23,10 @@ interface Device {
   connectionState: string
 }
 
-const position = { x: 0, y: 0 }
-
-interact('.modal')
-  .resizable({
-    // resize from all edges and corners
-    edges: { left: true, right: true, bottom: true, top: true },
-
-    listeners: {
-      move (event) {
-        var target = event.target
-        var x = position.x || 0
-        var y = position.y || 0
-
-        // update the element's style
-        target.style.width = event.rect.width + 'px'
-        target.style.height = event.rect.height + 'px'
-
-        // translate when resizing from top or left edges
-        x += event.deltaRect.left
-        y += event.deltaRect.top
-
-        target.style.transform = 'translate(' + x + 'px,' + y + 'px)'
-
-        target.setAttribute('data-x', x)
-        target.setAttribute('data-y', y)
-      }
-    },
-    modifiers: [
-      // keep the edges inside the parent
-      interact.modifiers.restrictEdges({
-        outer: 'parent'
-      }),
-
-      // minimum size
-      interact.modifiers.restrictSize({
-        min: { width: 100, height: 50 }
-      })
-    ],
-
-    inertia: true
-  })
-  .draggable({
-    listeners: {
-      start (event) {
-        console.log(position.y)
-      },
-      move (event) {
-        position.x += event.dx
-        position.y += event.dy
-  
-        event.target.style.transform =
-          `translate(${position.x}px, ${position.y}px)`
-      },
-    }
-  })
-
 export const ModalContext = createContext({})
+
+// Refresh time in ms
+const refreshTime = 5000
 
 function App() {
   const [scroll, setScroll] = useState(0)
@@ -92,25 +39,24 @@ function App() {
 
   useEffect(() => {
     const fetchData = async () => {
-      // TODO: Change address
-      const query = await fetch('https://smarthome.com/api/v1/devices')
-      const res = await query.json()
+      const query = await fetch('http://localhost:4000/api/v1/devices')
+      const { data } = await query.json()
+      let bulbs:Device[] = []
+      let outlets:Device[] = []
+      let tempSensors: Device[] = []
 
-      const bulbs:Device[] = []
-      const outlets:Device[] = []
-      const tempSensors: Device[] = []
-
-      res.map((device:Device) => {
+      data.forEach((device:Device) => {
         switch (device.type) {
           case "bulb":
-            bulbs.push(device)
+            bulbs = [...bulbs, device]
             break;
           case "outlet":
-            outlets.push(device)
+            outlets = [...outlets, device]
             break;
           case "temperatureSensor":
-            tempSensors.push(device)
+            tempSensors = [...tempSensors, device]
             break;
+          default: throw new Error('Nieznane urządzenie')
         }
       })
       setBulbs(bulbs)
@@ -118,36 +64,40 @@ function App() {
       setTempSensors(tempSensors)
     }
     fetchData()
+    setInterval(() => {
+      fetchData()
+      console.log('fetched');
+    }, refreshTime)
   }, [])
 
-  let useClickOutside = (handler:(() => void)) => {
-    let domNode:any = useRef();
-  
-    useEffect(() => {
-      // TODO: Fix any type
-      let maybeHandler = (event:any) => {
-        if (domNode.current && !domNode.current.contains(event.target)) {
-          handler();
-        }
-      };
-      document.addEventListener("mousedown", maybeHandler);
-  
-      return () => document.removeEventListener("mousedown", maybeHandler);
-    });
-  
-    return domNode;
-  };
 
-  let domNode = useClickOutside(() => {
-    setShowModal(false);
-  });
+  const buttonsList = [
+    {
+      count: bulbs.length,
+      desc: 'Żarówki',
+      icon: 'lightbulb',
+      scrollCount: 0
+    },
+    {
+      count: outlets.length,
+      desc: 'Kontakty',
+      icon: 'electrical_services',
+      scrollCount: 1
+    },
+    {
+      count: tempSensors.length,
+      desc: 'Czujniki Temperatury',
+      icon: 'thermostat',
+      scrollCount: 2
+    },
+  ]
 
   return (
-    <>
+    <div className='appWrapper'>
       <ModalContext.Provider value={{ setShowModal, setId, setDeviceType }}>
-        <div ref={domNode} className={`modal ${!showModal ? 'invisible' : null}`}>
-          {deviceType == 'bulb' ? <ModalBulbWindow id={id} /> : deviceType == 'outlet' ? <ModalOutletWindow id={id}/> : deviceType == "tempSensor" ? <ModalTempSensorWindow id={id} /> : null}
-          
+        <div className={`modal ${!showModal && 'invisible'}`}>
+          {deviceType === 'bulb' ? <ModalBulbWindow id={id} /> : deviceType === 'outlet' ? <ModalOutletWindow id={id} /> : deviceType === "tempSensor" ? <ModalTempSensorWindow id={id} /> : null}
+          <button className='closeBtn'  onClick={() => setShowModal(false)}>Zamknij</button>
         </div>
         <div className="App">
           <div className='list'>
@@ -155,18 +105,18 @@ function App() {
             <Avatar />
             <p>Moje urządzenia:</p>
             <ul>
-              <li onClick={() =>setScroll(0)}><Button count={bulbs.length} desc={'Żarówki'} icon={'lightbulb'} /></li>
-              <li onClick={() =>setScroll(1)}><Button count={outlets.length} desc={'Kontakty'} icon={'electrical_services'} /></li>
-              <li onClick={() => setScroll(2)}><Button count={tempSensors.length} desc={'Czujniki temperatury'} icon={'thermostat'} /></li>
+              {buttonsList.map(button => {
+                return <li onClick={() => setScroll(button.scrollCount)} key={button.scrollCount}><Button count={button.count} desc={button.desc} icon={button.icon} /></li>
+              })}
             </ul>
           </div>
           <div className='devices'>
-            <div className={`overflowProtect ${scroll == 1 ? 'goDown1' : scroll == 2 ? 'goDown2' : null}  `}>
+            <div className={`overflowProtect ${scroll === 1 ? 'goDown1' : scroll === 2 ? 'goDown2' : null}  `}>
             <div className='devicesWindow'>
               <Bulbs bulbs={bulbs} />
             </div>
             <div className='devicesWindow'>
-                <Outlets outlets={outlets}/>
+                <Outlets outlets={outlets} />
             </div>
             <div className='devicesWindow'>
               <TempSensors tempSensors={tempSensors}/>
@@ -175,7 +125,7 @@ function App() {
           </div>
           </div>
         </ModalContext.Provider>
-    </>
+    </div>
   );
 }
 

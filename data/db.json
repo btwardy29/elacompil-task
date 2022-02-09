@@ -77,7 +77,7 @@
         "type": "temperatureSensor",
         "id": "gagdgsgb24",
         "name": "Czujnik temperatury Garaż",
-        "connectionState": "disconnected"
+        "connectionState": "connected"
       },
       {
         "type": "temperatureSensor",
@@ -96,6 +96,16 @@
         "brightness": 77,
         "color": "#7c2c6f"
       },
+    "gsgb": 
+      {
+        "type": "bulb",
+        "id": "gsgb",
+        "name": "Żarówka sypialnia",
+        "connectionState": "connected",
+        "isTurnedOn": true,
+        "brightness": 21,
+        "color": "#9EC841"
+      },
     "gsfgb24": 
       {
         "type": "bulb",
@@ -104,7 +114,18 @@
         "connectionState": "poorConnection",
         "isTurnedOn": true,
         "brightness": 55,
-        "color": "wheat"
+        "color": "#418AC8"
+      }
+    ,
+    "gaasgb24": 
+      {
+        "type": "bulb",
+        "id": "gaasgb24",
+        "name": "Żarówka Kuchnia",
+        "connectionState": "disconnected",
+        "isTurnedOn": false,
+        "brightness": 96,
+        "color": "#5AC56E"
       }
     ,
     "rrfafattg": 
@@ -117,13 +138,82 @@
         "powerConsumption": 144
       }
     ,
+    "gsgbvsv": 
+      {
+        "type": "outlet",
+        "id": "gsgbvsv",
+        "name": "Kontakt sypialnia",
+        "connectionState": "disconnected",
+        "isTurnedOn": false,
+        "powerConsumption": 0
+      }
+    ,
+    "gsfgb2vsg4": 
+      {
+        "type": "outlet",
+        "id": "gsfgb2vsg4",
+        "name": "Kontakt korytarz",
+        "connectionState": "poorConnection",
+        "isTurnedOn": true,
+        "powerConsumption": 28
+      }
+    ,
+    "gaagdgsgb24": 
+      {
+        "type": "outlet",
+        "id": "gaagdgsgb24",
+        "name": "Kontakt kuchnia",
+        "connectionState": "disconnected",
+        "isTurnedOn": false,
+        "powerConsumption": 0
+      }
+    ,
     "gsggggbvsv": 
       {
         "type": "temperatureSensor",
-        "id": "rrfafattg",
-        "name": "gsggggbvsv",
+        "id": "gsggggbvsv",
+        "name": "Czujnik temperatury sypialnia",
         "connectionState": "disconnected",
         "temperature": -15
+      },
+    "rrfafattgsg": 
+      {
+        "type": "temperatureSensor",
+        "id": "rrfafattgsg",
+        "name": "Czujnik temperatury sypialnia",
+        "connectionState": "connected",
+        "temperature": 29
+      },
+    "getsfgb2vsg4": 
+      {
+        "type": "temperatureSensor",
+        "id": "getsfgb2vsg4",
+        "name": "Czujnik temperatury korytarz",
+        "connectionState": "poorConnection",
+        "temperature": 16
+      },
+    "gaabbcgdgsgb24": 
+      {
+        "type": "temperatureSensor",
+        "id": "gaabbcgdgsgb24",
+        "name": "Czujnik temperatury kuchnia",
+        "connectionState": "disconnected",
+        "temperature": 21
+      },
+    "gagdgsgb24": 
+      {
+        "type": "temperatureSensor",
+        "id": "gagdgsgb24",
+        "name": "Czujnik temperatury garaż",
+        "connectionState": "connected",
+        "temperature": 29
+      },
+    "gagdgsfafggb24": 
+      {
+        "type": "temperatureSensor",
+        "id": "gagdgsfafggb24",
+        "name": "Czujnik temperatury korytarz",
+        "connectionState": "connected",
+        "temperature": 17
       }
-      
 }

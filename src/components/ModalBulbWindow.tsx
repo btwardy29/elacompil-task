@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-
 import styles from '../styles/ModalBulbWindow.module.scss'
+const { io } = require("socket.io-client");
 
 interface BulbDevice {
   type: string;
@@ -17,14 +17,17 @@ const ModalBulbWindow = ({ id }: { id: string }) => {
   const [data, setData] = useState<BulbDevice | null>(null)
   
   useEffect(() => {
-    // TODO: Change address
-    let smartSocket = new WebSocket("wss://smarthome.com/api/v1/refresh");
+    // Second argument prevents CORS from error
+    const socket = io(`ws://localhost:4040`, { transports: ['websocket'] });
 
-    smartSocket.addEventListener('message', async function (event) {
-      const response = await (event.data).json()
-      setData(response)
+    socket.on('connect', function () {
+      socket.emit('fetchId', id)
+      
+      socket.on("message", (data: BulbDevice) => {
+        setData(data)
+      })
     })
-    return () => smartSocket.close()
+    return () => { socket.off() }
   }, [id])
 
   return (
@@ -33,7 +36,11 @@ const ModalBulbWindow = ({ id }: { id: string }) => {
         <div className={styles.wrapper} >
           <div className={styles.description}>
             <div>{data.name}</div>
-            <div>{data.connectionState ? 'Włączony' : 'Wyłączony'}</div>
+            <div>{
+              ((data.connectionState === 'connected') && 'Włączony') ||
+              ((data.connectionState === 'disconnected') && 'Wyłączony') ||
+              ((data.connectionState === 'poorConnection') && 'Słabe połączenie')
+              }</div>
           </div>
           <div className={styles.circleBox}>
           <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="140px" height="140px">
